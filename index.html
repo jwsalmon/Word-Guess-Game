@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Word Guess Game</title>
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4 align-self-center">
+                <img src="assets/images/HangMan.jpeg" alt="assets/images/hangmanTitle.png">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 border border-dark">
+                <img src="assets/images/hangman0.png" alt="starting image" id="hangman">
+            </div>
+            <div class="col-md-6 border border-dark">
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-7 align-self-center">Press any letter to start Guessing</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5"></div>
+                    <div class="col-md-4 align-self-center">Wins</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5"></div>
+                    <div class="col-md-4 align-self-center" id="wins">0</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-8 align-self-center">Current Word</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4 align-self-center" id="curWord">_ _ _ _ _ _</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4 align-self-center">Guesses Remaining</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4 align-self-center" id="guesses">12</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4 align-self-center">Letters Guessed</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4 align-self-center border border-dark" id="lettersGuesses"></div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+    <script src="assets/javascript/game.js"></script>
+</body>
+
+</html>
