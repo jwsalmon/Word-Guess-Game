@@ -3,8 +3,8 @@ var words = ["England", "Scottland", "Ireland", "Australia",
     "France", "Israel", "Italy", "Japan",
     "Mexico", "Portugal", "Spain", "Tonga"];
 var drawHanged = ["assets/images/hangman12.png", "assets/images/hangman11.png", "assets/images/hangman10.png", "assets/images/hangman9.png",
-                  "assets/images/hangman8.png", "assets/images/hangman7.png","assets/images/hangman6.png", "assets/images/hangman5.png",
-                  "assets/images/hangman4.png", "assets/images/hangman3.png", "assets/images/hangman2.png", "assets/images/hangman1.png"];
+    "assets/images/hangman8.png", "assets/images/hangman7.png", "assets/images/hangman6.png", "assets/images/hangman5.png",
+    "assets/images/hangman4.png", "assets/images/hangman3.png", "assets/images/hangman2.png", "assets/images/hangman1.png"];
 var flags = ["assets/images/flag-of-England.png", "assets/images/flag-of-Scottland.png", "assets/images/flag-of-Ireland.png", "assets/images/flag-of-Australia.png",
     "assets/images/flag-of-Brazil.png", "assets/images/flag-of-Belgium.png", "assets/images/flag-of-Canada.png", "assets/images/flag-of-Fiji.png",
     "assets/images/flag-of-France.png", "assets/images/flag-of-Israel.png", "assets/images/flag-of-Italy.png", "assets/images/flag-of-Japan.png",
@@ -35,7 +35,7 @@ function findLetterInWord(word, idx, element) {
         currentWord[letterPos] = element;
         lettersFound++;
     }
-    document.getElementById("curWord").textContent = currentWord;
+    document.getElementById("curWord").textContent = currentWord.join("");
 }
 document.onkeyup = function (event) {
 
@@ -49,9 +49,11 @@ document.onkeyup = function (event) {
         console.log(wordIndex);
         if ((guessIndex === -1) && (wordIndex !== -1)) {
             /* find first index of letter. then search rest of word to see if letter occurs again make this a function */
-            lettersFound++;
-            console.log("you found " + lettersFound + " letters");
+            //lettersFound++;
+            guessedLetters.push(userGuess);
+            document.getElementById("lettersGuesses").textContent = guessedLetters.join("");
             findLetterInWord(randomWord, wordIndex, userGuess);
+            console.log("you found " + lettersFound + " letters");
             if (lettersFound === randomWord.length) {
                 imgTag.setAttribute("src", flags[wordFlagIndex]);
                 isStarted = false;
@@ -65,7 +67,7 @@ document.onkeyup = function (event) {
             numOfGuesses--;
             document.getElementById("guesses").textContent = numOfGuesses;
             guessedLetters.push(userGuess);
-            document.getElementById("lettersGuesses").textContent = guessedLetters;
+            document.getElementById("lettersGuesses").textContent = guessedLetters.join("");
             imgTag.setAttribute("src", drawHanged[numOfGuesses]);
             if (numOfGuesses === 0) {// lost reset game 
                 isStarted = false;
@@ -78,7 +80,8 @@ document.onkeyup = function (event) {
         }
 
     }
-    else if (!isStarted){
+    else if (!isStarted) {
+        currentWord = [];
         wordFlagIndex = Math.floor(Math.random() * words.length);
         randomWord = words[wordFlagIndex];
         randomWord = randomWord.toLowerCase();
@@ -87,12 +90,15 @@ document.onkeyup = function (event) {
         for (var i = 0; i < randomWord.length; i++) {
             currentWord.push("_ ");
         }
-        //currentWord = "";
-        document.getElementById("curWord").textContent = currentWord;
+       // var curWord = " ";
+       // curWord = currentWord.join("");
+       // console.log(curWord);
+        document.getElementById("curWord").textContent = currentWord.join("");
         document.getElementById("instructions").textContent = "Press any letter to continue Guessing"
         imgTag.setAttribute("src", "assets/images/hangman0.png");
         isStarted = true;
         guessedLetters = [];
-
+        document.getElementById("lettersGuesses").textContent = guessedLetters.join("");
+        document.getElementById("guesses").textContent = numOfGuesses;
     }
 }
