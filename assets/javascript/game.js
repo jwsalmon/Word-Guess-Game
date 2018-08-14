@@ -1,19 +1,36 @@
-var words = ["England", "Scottland", "Ireland","Australia","Brazil","Belgium","Canada","Fiji","France","Israel",
-             "Italy","Japan","Mexico","Portugal","Spain","Tonga"];
+var words = ["England", "Scottland", "Ireland", "Australia",
+    "Brazil", "Belgium", "Canada", "Fiji",
+    "France", "Israel", "Italy", "Japan",
+    "Mexico", "Portugal", "Spain", "Tonga"];
+var drawHanged = ["assets/images/hangman12.png", "assets/images/hangman11.png", "assets/images/hangman10.png", "assets/images/hangman9.png",
+                  "assets/images/hangman8.png", "assets/images/hangman7.png","assets/images/hangman6.png", "assets/images/hangman5.png",
+                  "assets/images/hangman4.png", "assets/images/hangman3.png", "assets/images/hangman2.png", "assets/images/hangman1.png"];
+var flags = ["assets/images/flag-of-England.png", "assets/images/flag-of-Scottland.png", "assets/images/flag-of-Ireland.png", "assets/images/flag-of-Australia.png",
+    "assets/images/flag-of-Brazil.png", "assets/images/flag-of-Belgium.png", "assets/images/flag-of-Canada.png", "assets/images/flag-of-Fiji.png",
+    "assets/images/flag-of-France.png", "assets/images/flag-of-Israel.png", "assets/images/flag-of-Italy.png", "assets/images/flag-of-Japan.png",
+    "assets/images/flag-of-Mexico.png", "assets/images/flag-of-Portugal.png", "assets/images/flag-of-Spain.png", "assets/images/flag-of-Tonga.png"];
+var wordFlagIndex = -1;
 var guessedLetters = [];
-var guessIndex, wordIndex,lettersFound,numOfGuesses;
+var guessIndex = -1;
+var wordIndex = -1;
+var lettersFound, numOfGuesses;
+var winsCnts = 0;
 var currentWord = [];
 var randomWord = "";
 var isStarted = false;
+var imgTag = document.getElementById("hangman");
 
 /*find all occurence of a letter in a word  */
-function findLetterInWord(word,idx,element){
-   var indices =[];  
+function findLetterInWord(word, idx, element) {
+    var indices = [];
+    console.log("you pressed: " + element);
+    console.log("which is the " + idx + "of the word " + word);
     while (idx != -1) {
         indices.push(idx);
         idx = word.indexOf(element, idx + 1);
-      }
-    while (indices.length > 0){
+    }
+    console.log(indices);
+    while (indices.length > 0) {
         var letterPos = indices.pop();
         currentWord[letterPos] = element;
         lettersFound++;
@@ -24,43 +41,58 @@ document.onkeyup = function (event) {
 
     // Determines which key was pressed.
     var userGuess = event.key;
-    if ((/[a-zA-Z]/.test(userGuess)) && isStarted){
+    if ((/[a-zA-Z]/.test(userGuess)) && isStarted) {
         guessIndex = guessedLetters.indexOf(userGuess);
         wordIndex = randomWord.indexOf(userGuess);
-        /* not guesed yet and in word*/ 
-        if ( (guessIndex === -1) && (wordIndex !== -1) ){
-         /* find first index of letter. then search rest of word to see if letter occurs again make this a function */
-         lettersFound++;
-         findLetterInWord(randomWord,guessIndex,userGuess);
+        /* not guesed yet and in word*/
+        console.log(guessIndex);
+        console.log(wordIndex);
+        if ((guessIndex === -1) && (wordIndex !== -1)) {
+            /* find first index of letter. then search rest of word to see if letter occurs again make this a function */
+            lettersFound++;
+            console.log("you found " + lettersFound + " letters");
+            findLetterInWord(randomWord, wordIndex, userGuess);
+            if (lettersFound === randomWord.length) {
+                imgTag.setAttribute("src", flags[wordFlagIndex]);
+                isStarted = false;
+                winsCnts++;
+                document.getElementById("wins").textContent = winsCnts;
+                document.getElementById("instructions").textContent = "Press Space bar to play again";
+            }
+
         }
-        else if ( (guessIndex === -1) && (wordIndex === -1) ){/* not guessed and not in word*/
+        else if ((guessIndex === -1) && (wordIndex === -1)) {// not guessed and not in word
             numOfGuesses--;
             document.getElementById("guesses").textContent = numOfGuesses;
             guessedLetters.push(userGuess);
             document.getElementById("lettersGuesses").textContent = guessedLetters;
-            if (numOfGuesses === 0) {/*  lost reset game */
+            imgTag.setAttribute("src", drawHanged[numOfGuesses]);
+            if (numOfGuesses === 0) {// lost reset game 
                 isStarted = false;
-                document.getElementById("instructions").textContent = "Press Space bar to continue Start"
-           
+                document.getElementById("instructions").textContent = "Press Space bar to play again";
             }
         }
-        else{
-        /* guessed and not in word */
-        /* guessed and in word */
+        else {
+            /* guessed and not in word */
+            /* guessed and in word */
         }
 
     }
-    else{
-        randomWord = words[Math.floor(Math.random() * words.length)];
-        currentWord = "";
+    else if (!isStarted){
+        wordFlagIndex = Math.floor(Math.random() * words.length);
+        randomWord = words[wordFlagIndex];
+        randomWord = randomWord.toLowerCase();
         lettersFound = 0;
         numOfGuesses = 12;
-        for(var i = 0; i < randomWord.length; i++){
+        for (var i = 0; i < randomWord.length; i++) {
             currentWord.push("_ ");
         }
+        //currentWord = "";
         document.getElementById("curWord").textContent = currentWord;
         document.getElementById("instructions").textContent = "Press any letter to continue Guessing"
+        imgTag.setAttribute("src", "assets/images/hangman0.png");
         isStarted = true;
+        guessedLetters = [];
 
     }
 }
