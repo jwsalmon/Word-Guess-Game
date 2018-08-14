@@ -4,6 +4,7 @@ var guessedLetters = [];
 var guessIndex, wordIndex,lettersFound,numOfGuesses;
 var currentWord = [];
 var randomWord = "";
+var isStarted = false;
 
 /*find all occurence of a letter in a word  */
 function findLetterInWord(word,idx,element){
@@ -23,7 +24,7 @@ document.onkeyup = function (event) {
 
     // Determines which key was pressed.
     var userGuess = event.key;
-    if (/[a-zA-Z]/.test(userGuess)){
+    if ((/[a-zA-Z]/.test(userGuess)) && isStarted){
         guessIndex = guessedLetters.indexOf(userGuess);
         wordIndex = randomWord.indexOf(userGuess);
         /* not guesed yet and in word*/ 
@@ -37,6 +38,11 @@ document.onkeyup = function (event) {
             document.getElementById("guesses").textContent = numOfGuesses;
             guessedLetters.push(userGuess);
             document.getElementById("lettersGuesses").textContent = guessedLetters;
+            if (numOfGuesses === 0) {/*  lost reset game */
+                isStarted = false;
+                document.getElementById("instructions").textContent = "Press Space bar to continue Start"
+           
+            }
         }
         else{
         /* guessed and not in word */
@@ -54,6 +60,7 @@ document.onkeyup = function (event) {
         }
         document.getElementById("curWord").textContent = currentWord;
         document.getElementById("instructions").textContent = "Press any letter to continue Guessing"
+        isStarted = true;
 
     }
 }
