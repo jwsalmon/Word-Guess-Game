@@ -19,6 +19,8 @@ var currentWord = [];
 var randomWord = "";
 var isStarted = false;
 var imgTag = document.getElementById("hangman");
+var audioElement = document.createElement("audio");
+    audioElement.setAttribute("src", "assets/sound/deathmarch.wav");
 
 /*find all occurence of a letter in a word  */
 function findLetterInWord(word, idx, element) {
@@ -72,6 +74,7 @@ document.onkeyup = function (event) {
             if (numOfGuesses === 0) {// lost reset game 
                 isStarted = false;
                 document.getElementById("instructions").textContent = "Press Space bar to play again";
+                audioElement.play();
             }
         }
         else {
