@@ -1,3 +1,5 @@
+
+/* global variables: */
 var words = ["England", "Scottland", "Ireland", "Australia",
     "Brazil", "Belgium", "Canada", "Fiji",
     "France", "Israel", "Italy", "Japan",
@@ -19,10 +21,13 @@ var currentWord = [];
 var randomWord = "";
 var isStarted = false;
 var imgTag = document.getElementById("hangman");
+// create audio element to play death march sound when lose
 var audioElement = document.createElement("audio");
     audioElement.setAttribute("src", "assets/sound/deathmarch.wav");
 
-/*find all occurence of a letter in a word  */
+/*find all occurence of a letter in a word 
+ fill in letters where they should be. 
+*/
 function findLetterInWord(word, idx, element) {
     var indices = [];
     console.log("you pressed: " + element);
@@ -39,24 +44,25 @@ function findLetterInWord(word, idx, element) {
     }
     document.getElementById("curWord").textContent = currentWord.join("");
 }
+
+// main funtion
 document.onkeyup = function (event) {
 
     // Determines which key was pressed.
     var userGuess = event.key;
     if ((/[a-zA-Z]/.test(userGuess)) && isStarted) {
+        // gets id of letter if gussed or get -1
         guessIndex = guessedLetters.indexOf(userGuess);
-        wordIndex = randomWord.indexOf(userGuess);
-        /* not guesed yet and in word*/
-        console.log(guessIndex);
-        console.log(wordIndex);
-        if ((guessIndex === -1) && (wordIndex !== -1)) {
-            /* find first index of letter. then search rest of word to see if letter occurs again make this a function */
-            //lettersFound++;
+        //check if letter guessed exits in word;
+        wordIndex = randomWord.indexOf(userGuess);        
+        console.log(guessIndex); //debug log
+        console.log(wordIndex);  //debug log
+        if ((guessIndex === -1) && (wordIndex !== -1)) {// not guessed and in word 
             guessedLetters.push(userGuess);
             document.getElementById("lettersGuesses").textContent = guessedLetters.join("");
             findLetterInWord(randomWord, wordIndex, userGuess);
             console.log("you found " + lettersFound + " letters");
-            if (lettersFound === randomWord.length) {
+            if (lettersFound === randomWord.length) { // user found all letters of word?
                 imgTag.setAttribute("src", flags[wordFlagIndex]);
                 isStarted = false;
                 winsCnts++;
@@ -77,10 +83,7 @@ document.onkeyup = function (event) {
                 audioElement.play();
             }
         }
-        else {
-            /* guessed and not in word */
-            /* guessed and in word */
-        }
+        
 
     }
     else if (!isStarted) {
